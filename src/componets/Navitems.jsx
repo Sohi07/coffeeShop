@@ -31,25 +31,27 @@ export const navItems = [
   },
 ];
 
-export const productDropdown = [
-  {
-    id: 1,
-    title: "Shop",
-    path: "./shop",
-    cName: "submenu-item",
-  },
-  {
-    id: 2,
-    title: "Premium Beans",
-    path: "./premiumBeans",
-    cName: "submenu-item",
-  },
-  {
-    id: 3,
-    title: "expert bistas",
-    path: "./expertbaristas",
-    cName: "submenu-item",
-  },
+export const productDropdown =[
+    {
+        id:1,
+        title:"Shop",
+        path:"./shop",
+        cName:"submenu-item",
+    },
+
+    {
+        id:2,
+        title:"Premium Beans",
+        path:"./premiumBeans",
+        cName:"submenu-item",
+    },
+
+    {
+        id:3,
+        title:"Expert Baristas",
+        path:"./expertbaristas",
+        cName:"submenu-item",
+    },
 ];
 
 export const ourstoryDropdown = [

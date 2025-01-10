@@ -5,9 +5,17 @@ import Button from '../componets/Button';
 
 const AboutContainer = styled.div`
   padding: 6rem 2rem 4rem 2rem;
-  max-width: 1200px;
+  max-width: 1900px;
   margin: 0 auto;
   background-color: #fffbeb;
+
+  background-image: url('https://images.template.net/103700/soft-brown-background-1btgz.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px; /* Optional: To add rounded corners to the container */
+  opacity:1;
+  z-index:-1; 
+
 
   background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20231205/pngtree-creamy-textured-milk-colored-background-image_13815875.png');
   background-size: cover;
@@ -16,16 +24,22 @@ const AboutContainer = styled.div`
 
   padding-top: 1.5rem; /* Adjusted padding for top */
 
+
 `;
 
 const Title = styled(motion.h1)`
   font-size: 3rem;
   margin-bottom: 3rem;
   text-align: center;
+
+  color: color: #5e2e0d;
+  font-weight: bolder;
+
   color: #7c2214;
   letter-spacing: 4px;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 `;
 
 const Content = styled(motion.div)`
@@ -44,8 +58,8 @@ const Content = styled(motion.div)`
 const TextContent = styled(motion.div)`
   flex: 1;
   p {
-    color: #92400e;
-    font-size: 1.1rem;
+    color:color: #5e2e0d;
+    font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
     font-weight:bold;
@@ -58,13 +72,44 @@ const ImageContent = styled(motion.div)`
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  position: relative; /* To contain the overlay */
 `;
 
-const Image = styled(motion.img)`
-  max-width: 100%;
-  height: auto;
+const HoverImage = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%; /* Prevent image from overflowing */
   border-radius: 12px;
+  overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  cursor: pointer;
+  /* Image scaling and hover effect */
+  &:hover img {
+    transform: scale(1.1); /* Scale image on hover */
+  }
+  /* Dark overlay that appears on hover */
+  &:hover .overlay {
+    opacity: 1;
+  }
+  /* Image styling */
+  img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease; /* Smooth image scaling */
+  }
+  /* Overlay effect */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
   filter: grayscale(100%) ;
   transition: all 0.3s ease;
   border: 4px solid black;
@@ -73,6 +118,7 @@ const Image = styled(motion.img)`
     box-shadow: 0 0 20px rgba(255, 10, 0, 0.8);
     border-width: 6px;
     transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.05);
+
   }
 `;
 
@@ -105,10 +151,13 @@ function About() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Image 
-            src="https://img.freepik.com/free-photo/digital-lavender-style-interior-design_23-2151561226.jpg?t=st=1727763316~exp=1727766916~hmac=621a2fad85c2229414cc73a6d1c40e4525802c326c6494db624ca97d2fda6bc2&w=1380" 
-            alt="Zumar Cafe Interior" 
-          />
+          <HoverImage>
+            <img 
+              src="https://i.ytimg.com/vi/DyJTVkRP1vY/maxresdefault.jpg" 
+              alt="Zumar Cafe Interior" 
+            />
+            <div className="overlay"></div>
+          </HoverImage>
         </ImageContent>
       </Content>
     </AboutContainer>

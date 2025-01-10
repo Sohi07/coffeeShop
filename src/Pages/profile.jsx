@@ -46,6 +46,7 @@ const Order = styled.div`
 `;
 
 function Profile() {
+  const UserData = JSON.parse(localStorage.getItem('user'));
   const user = useSelector((state) => state.auth.user);
 
   // Mock order history data
@@ -71,11 +72,11 @@ function Profile() {
       >
         <InfoItem>
           <Label>Name:</Label>
-          {user?.username || 'N/A'}
+          {UserData.username || 'N/A'}
         </InfoItem>
         <InfoItem>
           <Label>Email:</Label>
-          {user?.email || 'N/A'}
+          {UserData.email || 'N/A'}
         </InfoItem>
         <Button primary>Edit Profile</Button>
       </ProfileInfo>

@@ -74,11 +74,17 @@ transition: box-shadow 0.3s ease;
 
 `;
 
-const ProductImage = styled.img`
+const ProductImage = styled(motion.img)`
   width: 100%;
   height: 220px;
   object-fit: cover;
+  transition: transform 0.5s ease-out; /* Smooth scaling transition */
+  
+  &:hover {
+    transform: scale(1.05); /* Scale the image on hover */
+  }
 `;
+
 
 const Overlay = styled.div`
   position: absolute;

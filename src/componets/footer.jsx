@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-
+import { Link } from 'react-router-dom';
 // Styled components for the footer
 const FooterContainer = styled.footer`
   background-color: #78350f;
@@ -86,7 +86,7 @@ const InfoColumn = styled.div`
 const SocialIcons = styled.div`
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem; //additional gap removed.
   margin-top: 1rem;
 
   @media (max-width: 768px) {
@@ -134,10 +134,10 @@ function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.2 }}
-            aria-label="Twitter"
+            aria-label="twitter"
             role="link"
           >
-            <i class="fa-brands fa-x-twitter"></i>
+            <i className="fa-brands fa-twitter"></i>{/* 'className' should've been used instead of 'class'. */}
           </SocialIcon>
           <SocialIcon
             href="https://instagram.com"
@@ -156,6 +156,14 @@ function Footer() {
           <InfoColumn>
             <h3>About Us</h3>
             <p>Founded in 2010, MsCafe is dedicated to serving the finest coffee with passion and expertise. We source our beans from sustainable farms across the globe.</p>
+          </InfoColumn>
+          <InfoColumn  >
+            <h3>Quick Links</h3>
+            <Link to="/">Home</Link>
+            <Link to="/shop">Shop</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/testimonial">Testimonial</Link>
           </InfoColumn>
 
           <InfoColumn>

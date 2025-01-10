@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const StyledButton = styled(motion.button)`
   padding: 0.5rem 1rem;
-  margin: 1rem 1rem;
+  margin: 1rem 30px 1rem 0;
   font-size: 1rem;
   background-color: ${props => props.primary ? '#7c2214' : '#7c2214'};
   color: ${props => props.primary ? 'white' : 'white'};
@@ -14,14 +14,18 @@ const StyledButton = styled(motion.button)`
   transition: all 0.3s ease;
   margin-right: 30px;
   border-radius: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
 
     margin-right: ${props => props.noMargin ? '0' : '10px'}; /* Add margin for spacing */
 
 
 
   &:hover {
-    background-color: ${props => props.primary ? '#7c2214' : 'white'};
-    color: ${props => props.primary ? 'white' : '#7c2214'}
+    background-color: ${props => props.primary ? '#9c1904' : 'white'};
+    color: ${props => props.primary ? 'white' : '#7c2214'};
+    text-shadow: 5px 5px 9px rgba(0, 0, 0, 0.8);
+    
   }
 `;
 const ButtonContainer = styled.div`

@@ -308,7 +308,6 @@ function Navbar() {
           <img src="3817208_coffee_cup_drink_icon.png" alt="Logo" />
           <Link to="/">MsCafe</Link>
         </Logo>
-
         <ul>
           <RightNav>
             {navItems.map((items) => {
@@ -422,6 +421,12 @@ function Navbar() {
                   <Link to="/shop/milkshake">Milkshakes</Link>
                 </DropdownMenu>
               </ShopLink>
+              <NavLink
+                className={location.pathname === "/faq" ? "active" : ""}
+                whileHover={{ scale: 1.05 }}
+              >
+                <Link to="/faq">FAQ</Link>
+              </NavLink>
 
               {/* removed unnecessary links that were already hidden and obsolete.  */}
 
@@ -485,6 +490,11 @@ function Navbar() {
             <MobileNavLink whileHover={{ scale: 1.02 }}>
               <Link to="/about" onClick={toggleMenu}>
                 About
+              </Link>
+            </MobileNavLink>
+            <MobileNavLink whileHover={{ scale: 1.02 }}>
+              <Link to="/faq" onClick={toggleMenu}>
+                FAQ
               </Link>
             </MobileNavLink>
             <MobileNavLink whileHover={{ scale: 1.02 }}>

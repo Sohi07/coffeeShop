@@ -19,9 +19,9 @@ const HomeContainer = styled.div`
 
 const HeroSection = styled.section`
   display: flex;
-  padding:0;
-  margin:0;
-  top:-2rem;
+  padding: 0;
+  margin: 0;
+  top: -2rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -30,7 +30,7 @@ const HeroSection = styled.section`
 
   width: 100%;
 
-  gap:-0.5rem;
+  gap: -0.5rem;
 
   background-image: linear-gradient(
       rgba(44, 19, 11, 0.7),
@@ -56,8 +56,7 @@ const HeroSection = styled.section`
 
 const Title = styled(motion.h1)`
   font-size: 5rem;
-  
-  
+
   font-family: "Playfair Display", serif;
   color: #ffe4b5;
 
@@ -68,22 +67,20 @@ const Title = styled(motion.h1)`
 
 const Subtitle = styled(motion.p)`
   font-size: 1.8rem;
-  
+
   font-family: "Poppins", sans-serif;
   color: #deb887;
   max-width: 600px;
-  
 
   @media (max-width: 768px) {
     font-size: 1.4rem;
-    
   }
 `;
 
 const StyledButton = styled(Button)`
   background: #d2691e;
   color: #ffe4b5;
-  padding:0.8rem;
+  padding: 0.8rem;
   font-size: 1.2rem;
   border-radius: 30px;
   border: 2px solid #8b4513;
@@ -99,8 +96,9 @@ const StyledButton = styled(Button)`
   }
 
   @media (min-width: 783px) {
-  font-size:0.8rem;
-  padding: 0.5rem}
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
 `;
 
 const FeaturesSection = styled.section`
@@ -111,8 +109,6 @@ const FeaturesSection = styled.section`
   background: linear-gradient(135deg, #fdf5e6, #ffe4b5);
   position: relative;
   overflow: visible;
-
-  
 
   @media (max-width: 768px) {
     padding: 4rem 2rem;
@@ -183,9 +179,9 @@ const SpecialtySection = styled.section`
   background: #2c130b;
   position: relative;
 
-  &::before {
-    content: "Our Specialties";
-    position: absolute;
+  & h1 {
+    width: 100%;
+    text-align: center;
     top: 2rem;
     left: 50%;
     transform: translateX(-50%);
@@ -354,6 +350,7 @@ function Home() {
         </FeatureCard>
       </FeaturesSection>
       <SpecialtySection ref={specialtyRef}>
+        <h1>Our Specialities</h1>
         <SpecialtyImage
           src="https://img.freepik.com/free-photo/brown-coffee-beans-seed_74190-6651.jpg?ga=GA1.1.1542821208.1727756299&semt=ais_hybrid "
           alt="Specialty Coffee 1"
@@ -367,7 +364,6 @@ function Home() {
           alt="Specialty Coffee 3"
         />
       </SpecialtySection>
-      <Faq />
     </HomeContainer>
   );
 }
