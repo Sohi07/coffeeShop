@@ -1,5 +1,6 @@
-
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './componets/ScrollToTop';
 import { Provider } from 'react-redux';
@@ -46,6 +47,8 @@ function App() {
         <ScrollToTop />
         <AppContainer>
           <Navbar />
+          
+          <ToastContainer position="top-right" autoClose={3000} />
           <ContentContainer>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -79,3 +82,4 @@ function App() {
 }
 
 export default App;
+
