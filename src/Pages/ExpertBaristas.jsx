@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+
+const OPENAI_API_KEY = 'REACT_APP_OPENAI_API_KEY'; 
 
 const ExpertContainer = styled.div`
   padding: 6rem 2rem 4rem 2rem;
@@ -27,9 +29,9 @@ const FeatureTitle = styled(motion.h1)`
   font-weight: bold;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem; /* Adjust font size for smaller screens */
-    text-align: center; /* Center the title on smaller screens */
-    margin-top: 0; /* Reset margin for better spacing on smaller screens */
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 0;
   }
 `;
 
@@ -78,15 +80,78 @@ const FeatureDescription = styled(motion.p)`
     font-size: 1.2rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    text-align: justify; /* Ensure text is justified on small screens */
+    text-align: justify;
   }
 `;
 
+const ChatContainer = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 400px;
+  height: 500px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+`;
+
+const ChatHeader = styled.div`
+  background-color: #d2691e;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ChatMessages = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Message = styled.div`
+  align-self: ${props => props.sender === 'user' ? 'flex-end' : 'flex-start'};
+  background-color: ${props => props.sender === 'user' ? '#d2691e' : '#f4f4f4'};
+  color: ${props => props.sender === 'user' ? 'white' : 'black'};
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  max-width: 80%;
+`;
+
+const TypingIndicator = styled.div`
+  align-self: flex-start;
+  background-color: #f4f4f4;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-style: italic;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+`;
+
+const TextInput = styled.input`
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
 const Button = styled.button`
-  type: 'button';
-  class: 'btn btn-warning mx-20';
-  margin-top: 2rem;
-  padding: 0.8rem 1.5rem;
+  padding: ${props => props.small ? '0.5rem 1rem' : '0.8rem 1.5rem'};
   background-color: #d2691e;
   color: white;
   border: none;
@@ -98,13 +163,98 @@ const Button = styled.button`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
+    width: ${props => props.small ? 'auto' : '100%'};
+    padding: ${props => props.small ? '0.5rem 1rem' : '1rem 2rem'};
+    font-size: ${props => props.small ? '1rem' : '1.2rem'};
   }
 `;
 
 function ExpertBaristas() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [messages, setMessages] = useState([{
+    message: "Hello! I'm your coffee expert. How can I help you today?",
+    sender: "ChatGPT"
+  }]);
+  const [isTyping, setIsTyping] = useState(false);
+  const [userInput, setUserInput] = useState('');
+
+  const toggleChat = () => setIsChatOpen(prev => !prev);
+
+  const handleSendMessage = async () => {
+    if (userInput.trim() === '') return;
+
+    const newMessage = {
+      message: userInput,
+      sender: "user"
+    };
+
+    const newMessages = [...messages, newMessage];
+    setMessages(newMessages);
+    setUserInput('');
+    setIsTyping(true);
+
+    await processMessageToChatGPT(newMessages);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
+  async function processMessageToChatGPT(chatMessages) {
+    const systemMessage = {
+      role: "system",
+      content: "You are an expert barista with deep knowledge of coffee. Provide detailed, professional advice about coffee, brewing methods, and coffee culture."
+    };
+
+    const apiMessages = chatMessages.map((messageObject) => ({
+      role: messageObject.sender === "ChatGPT" ? "assistant" : "user",
+      content: messageObject.message
+    }));
+
+    const apiRequestBody = {
+      model: "gpt-4o",
+      messages: [systemMessage, ...apiMessages]
+    };
+
+    try {
+      const response = await fetch( {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + OPENAI_API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(apiRequestBody)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'An error occurred');
+      }
+
+      setMessages([
+        ...chatMessages,
+        {
+          message: data.choices[0].message.content,
+          sender: "ChatGPT"
+        }
+      ]);
+    } catch (error) {
+      console.error('Error:', error);
+      setMessages([
+        ...chatMessages,
+        {
+          message: "I apologize, but I'm having trouble connecting right now. Please try again later.",
+          sender: "ChatGPT"
+        }
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  }
+
   return (
     <>
       <ExpertContainer>
@@ -130,9 +280,41 @@ function ExpertBaristas() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Expert baristas excel in making coffee due to their comprehensive knowledge of coffee, practical brewing skills, and passion for the craft. They ensure optimal flavor extraction by meticulously controlling variables like grind size, water temperature, and brewing time. Their expertise allows them to create a perfect cup of coffee tailored to individual preferences, showcasing their attention to detail and dedication. The skillset is honed through extensive training and practice. Expert baristas demonstrate exceptional precision in every step of the coffee-making process. A true expert barista has a passion for coffee that drives them to constantly improve and innovate. They experiment with new coffee blends, brewing methods, and flavor combinations to create unique and memorable coffee experiences.
+          Expert baristas excel in making coffee due to their comprehensive knowledge of coffee, practical brewing skills, and passion for the craft...
         </FeatureDescription>
+
+   <Button onClick={toggleChat}>Chat with a Coffee Expert</Button>
+
       </ExpertContainer>
+
+      {isChatOpen && (
+        <ChatContainer>
+          <ChatHeader>
+            <span>Chat with Coffee Expert</span>
+            <Button small onClick={toggleChat}>Close</Button>
+          </ChatHeader>
+          <ChatMessages>
+            {messages.map((message, index) => (
+              <Message key={index} sender={message.sender}>
+                {message.message}
+              </Message>
+            ))}
+            {isTyping && (
+              <TypingIndicator>Coffee Expert is typing...</TypingIndicator>
+            )}
+          </ChatMessages>
+          <InputContainer>
+            <TextInput
+              type="text"
+              placeholder="Type your message..."
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <Button small onClick={handleSendMessage}>Send</Button>
+          </InputContainer>
+        </ChatContainer>
+      )}
     </>
   );
 }

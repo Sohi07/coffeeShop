@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Button from "../componets/Button";
 import Faq from "../componets/faq";
 import "./Home.css";
-
+import DynamicText from "./dynamicText";
 gsap.registerPlugin(ScrollTrigger);
 
 const HomeContainer = styled.div`
@@ -298,7 +298,7 @@ function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          Welcome to MsCafe
+           <DynamicText text="Welcome to MsCafe" />
         </Title>
         <Subtitle
           initial={{ opacity: 0, y: -30 }}
