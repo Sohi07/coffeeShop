@@ -7,7 +7,6 @@ const DynamicText = ({ text }) => {
       textElement.textContent = text;
     }
   }, [text]);
-
   return (
     <div className="typing">
       <span id="text"></span>
